@@ -1,19 +1,14 @@
-import { Debug } from '@novice1/logger';
-import Storehouse from '@storehouse/core';
-import { MongoDBManager, getModel, getManager, getConnection } from '../../src/index';
+const { Debug } = require('@novice1/logger');
+const Storehouse = require('@storehouse/core');
+const { MongoDBManager } = require('../../lib/index');
 
 Debug.enable('@storehouse/mongodb*');
-
-interface Movie {
-  title: string;
-  rate?: number;
-}
 
 describe('connect', function () {
   const { logger, params } = this.ctx.kaukau;
 
   it('should init and connect', async () => {
-    // Storehouse.setManagerType(MongooseManager);
+    Storehouse.setManagerType(MongoDBManager);
 
     let databaseUri = `${params('mongodb.protocol')}://`;
     if (params('mongodb.username') && params('mongodb.password')) {
@@ -31,7 +26,7 @@ describe('connect', function () {
     try {
       Storehouse.add({
         mongodb: {
-          type: MongoDBManager,
+          type: '@storehouse/mongodb',
           config: {
             url: databaseUri,
             // MongoClientOptions
@@ -42,18 +37,18 @@ describe('connect', function () {
         }
       });
 
-      const conn = await getConnection(Storehouse, 'mongodb').connect();// Storehouse.getConnection<MongoClient>()?.connect();
+      const conn = await Storehouse.getConnection('mongodb').connect();
       logger.info('retrieved connection for database', conn.db().databaseName);
 
-      const manager = getManager(Storehouse/*, 'mongodb'*/);
-      const MoviesModel = manager.getModel<Movie>('movies');
+      const manager = Storehouse.getManager('mongodb');
+      const MoviesModel = manager.getModel('movies');
       if (MoviesModel) {
         logger.log('nb movies', await MoviesModel.countDocuments());
       }
 
-      const Movies = getModel<Movie>(Storehouse, /*'mongodb',*/ 'movies');
+      const Movies = Storehouse.getModel('mongodb', 'movies');
   
-      const newMovie: Movie = {
+      const newMovie = {
         title: `Last Knight ${Math.ceil(Math.random() * 1000) + 1}`
       };
       newMovie.rate = 3;
@@ -70,19 +65,11 @@ describe('connect', function () {
 
       logger.log('nb current database movies', await Movies.countDocuments());
 
-      //const OtherMovies = getModel<Movie>(Storehouse, 'otherdatabase.movies');
+      //const OtherMovies = getModel(Storehouse, 'otherdatabase.movies');
       //logger.log('nb other database movies', await OtherMovies.countDocuments());
 
-      await Storehouse.close(/*true*/);
-      logger.info('closed connections');
-
-      /*
-      await conn.connect();
-
-      logger.info(await Movies.countDocuments());
-
       await Storehouse.close();
-      */
+      logger.info('closed connections');
 
       logger.info('Done');
     } catch(e) {

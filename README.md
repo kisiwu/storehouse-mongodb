@@ -26,7 +26,6 @@ index.ts
 ```ts
 import Storehouse from '@storehouse/core';
 import { MongoDBManager } from '@storehouse/mongodb';
-import { movieSettings } from './movies';
 
 // register
 Storehouse.add({
@@ -55,7 +54,7 @@ import { Collection, MongoClient } from 'mongodb';
 import { Movie } from './movies';
 
 // open the connection by calling MongoClient.connect()
-const conn = await Storehouse.getConnection<MongoClient>()?.connect();
+const conn = await Storehouse.getConnection<MongoClient>('local')?.connect();
 if (conn) {
   console.log('retrieved connection for database', conn.db().databaseName);
 }
@@ -89,8 +88,8 @@ import { Collection } from 'mongodb';
 import { Movie } from './movies';
 
 // connection
-const conn = await getConnection(Storehouse, 'local');
-console.log('retrieved connection for database', conn.name);
+const conn = await getConnection(Storehouse, 'local').connect();
+console.log('retrieved connection for database', conn.db().databaseName);
 
 // manager
 const manager = getManager(Storehouse, 'local');
@@ -99,6 +98,18 @@ manager.getModel<Collection<Movie>>('movies');
 // model
 const Movies = getModel<Movie>(Storehouse, 'local', 'movies');
 console.log('nb movies', await Movies.countDocuments());
+```
+
+### Collections from another database
+
+You can access data from another database sharing the same socket connection.
+To get access to a collection from another database with the method `getModel`, the name of the model should be in the following format: `<database-name>.<collection-name>`.
+
+```ts
+const Movies = Storehouse.getModel<Collection<Movie>>('local', 'otherdatabase.movies');
+```
+```ts
+const Movies = getModel(Storehouse, 'local', 'otherdatabase.movies');
 ```
 
 ## References

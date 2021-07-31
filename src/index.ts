@@ -75,7 +75,7 @@ export class MongoDBManager implements IManager {
 
   private _registerConnectionEvents(connection: MongoClient) {
     connection.on('topologyOpening', () => {
-      Log.warn('[%s] attempting a connection ...', this.name);
+      Log.info('[%s] connecting ...', this.name);
     });
     connection.on('serverOpening', () => {
       Log.info('[%s] connected!', this.name);
@@ -84,7 +84,7 @@ export class MongoDBManager implements IManager {
       Log.info('[%s] disconnected!', this.name);
     });
     connection.on('topologyClosed', () => {
-      Log.warn('[%s] connection closed!', this.name);
+      Log.info('[%s] connection closed!', this.name);
     });
   }
 
