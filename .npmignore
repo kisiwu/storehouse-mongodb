@@ -1,7 +1,14 @@
-private
-dev
+.github
+typedocIncludes
 docs
-/lib
+dev
+private
+src
+test
+types
+todo
+typedoc.json
+kaukau-*.js
 
 # Logs
 logs
