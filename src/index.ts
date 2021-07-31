@@ -74,35 +74,17 @@ export class MongoDBManager implements IManager {
   }
 
   private _registerConnectionEvents(connection: MongoClient) {
-    connection.on('connecting', () => {
-      Log.warn('Connecting [%s] ...', this.name);
+    connection.on('topologyOpening', () => {
+      Log.warn('[%s] attempting a connection ...', this.name);
     });
     connection.on('serverOpening', () => {
-      Log.info('[%s] connection opens!', this.name);
+      Log.info('[%s] connected!', this.name);
     });
     connection.on('serverClosed', () => {
-      Log.info('[%s] connection closes!', this.name);
+      Log.info('[%s] disconnected!', this.name);
     });
-    connection.on('disconnecting', () => {
-      Log.warn('Disconnecting [%s] ...', this.name);
-    });
-    connection.on('disconnected', () => {
-      Log.warn('[%s] has been disconnected!', this.name);
-    });
-    connection.on('reconnected', () => {
-      Log.warn('[%s] has been reconnected!', this.name);
-    });
-    connection.on('error', (err) => {
-      Log.error('[%s] %O', this.name, err);
-    });
-    connection.on('fullsetup', () => {
-      Log.info('[%s] connected to the primary and one secondary server', this.name);
-    });
-    connection.on('all', () => {
-      Log.info('[%s] connected to all servers', this.name);
-    });
-    connection.on('reconnectFailed', () => {
-      Log.error('[%s] failed to reconnect', this.name);
+    connection.on('topologyClosed', () => {
+      Log.warn('[%s] connection closed!', this.name);
     });
   }
 

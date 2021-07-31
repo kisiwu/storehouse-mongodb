@@ -30,7 +30,7 @@ describe('connect', function () {
 
     try {
       Storehouse.add({
-        local: {
+        mongodb: {
           type: MongoDBManager,
           config: {
             url: databaseUri,
@@ -42,16 +42,16 @@ describe('connect', function () {
         }
       });
 
-      const conn = await getConnection(Storehouse, 'local').connect();
+      const conn = await getConnection(Storehouse, 'mongodb').connect();
       logger.info('retrieved connection for database', conn.db().databaseName);
 
-      const manager = getManager(Storehouse/*, 'local'*/);
+      const manager = getManager(Storehouse/*, 'mongodb'*/);
       const MoviesModel = manager.getModel<Movie>('movies');
       if (MoviesModel) {
         logger.log('nb movies', await MoviesModel.countDocuments());
       }
 
-      const Movies = getModel<Movie>(Storehouse, /*'local',*/ 'movies');
+      const Movies = getModel<Movie>(Storehouse, /*'mongodb',*/ 'movies');
   
       const newMovie: Movie = {
         title: `Last Knight ${Math.ceil(Math.random() * 1000) + 1}`
