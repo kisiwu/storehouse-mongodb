@@ -39,7 +39,7 @@ export function getManager<M extends MongoDBManager = MongoDBManager>(registry: 
     throw new ReferenceError(`Could not find manager "${managerName || registry.defaultManager}"`);
   }
   if (!(manager instanceof MongoDBManager)) {
-    throw new TypeError(`Manager "${managerName || registry.defaultManager}" is not instance of MongooseManager`);
+    throw new TypeError(`Manager "${managerName || registry.defaultManager}" is not instance of MongoDBManager`);
   }
   return manager;
 }

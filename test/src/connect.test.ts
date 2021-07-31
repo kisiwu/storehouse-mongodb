@@ -42,7 +42,7 @@ describe('connect', function () {
         }
       });
 
-      const conn = await getConnection(Storehouse, 'mongodb').connect();
+      const conn = await getConnection(Storehouse, 'mongodb')// Storehouse.getConnection<MongoClient>()?.connect();
       logger.info('retrieved connection for database', conn.db().databaseName);
 
       const manager = getManager(Storehouse/*, 'mongodb'*/);
