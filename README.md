@@ -1,6 +1,8 @@
 # @storehouse/mongodb
 MongoDB driver manager for @storehouse/core.
 
+[Documentation](https://novice1.000webhostapp.com/storehouse/mongodb/).
+
 
 ## Installation
 
@@ -114,6 +116,7 @@ const Movies = getModel(Storehouse, 'local', 'otherdatabase.movies');
 
 ## References
 
+- [Documentation](https://novice1.000webhostapp.com/storehouse/mongodb/)
 - [@storehouse/core](https://www.npmjs.com/package/@storehouse/core)
 - [mongodb](https://www.npmjs.com/package/mongodb)
 

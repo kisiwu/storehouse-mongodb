@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/kisiwu/storehouse-mongodb/issues"
   },
-  "homepage": "https://github.com/kisiwu/storehouse-mongodb#readme",
+  "homepage": "https://novice1.000webhostapp.com/storehouse/mongodb/",
   "devDependencies": {
     "@types/chai": "^4.2.21",
     "@types/mocha": "^9.0.0",
