@@ -52,51 +52,49 @@ export function getConnection(registry: Registry, managerName?: string): MongoCl
   return conn;
 }
 
-export class MongoDBManager implements IManager {
+export class MongoDBManager extends MongoClient implements IManager {
   static readonly type = '@storehouse/mongodb';
-
-  protected connection: MongoClient;
 
   protected name: string;
 
   constructor(settings: MongoDBManagerArg) {
-    this.name = settings.name || `MongoDB ${Date.now()}_${Math.ceil(Math.random() * 10000) + 10}`;
-
     if (!settings.config?.url) {
       throw new TypeError('Missing connection url');
     }
 
-    this.connection = new MongoClient(settings.config.url, settings.config.options);
+    super(settings.config.url, settings.config.options);
 
-    this._registerConnectionEvents(this.connection);
+    this.name = settings.name || `MongoDB ${Date.now()}_${Math.ceil(Math.random() * 10000) + 10}`;
+
+    this._registerConnectionEvents();
 
     Log.info('[%s] MongoClient created. Must call "MongoClient.connect()".', this.name);
   }
 
-  private _registerConnectionEvents(connection: MongoClient) {
-    connection.on('topologyOpening', () => {
+  private _registerConnectionEvents() {
+    this.on('topologyOpening', () => {
       Log.info('[%s] connecting ...', this.name);
     });
-    connection.on('serverOpening', () => {
+    this.on('serverOpening', () => {
       Log.info('[%s] connected!', this.name);
     });
-    connection.on('serverClosed', () => {
+    this.on('serverClosed', () => {
       Log.info('[%s] disconnected!', this.name);
     });
-    connection.on('topologyClosed', () => {
+    this.on('topologyClosed', () => {
       Log.info('[%s] connection closed!', this.name);
     });
   }
 
   getConnection(): MongoClient {
-    return this.connection;
+    return this;
   }
 
   async closeConnection(force?: boolean): Promise<void> {
     if (force) {
-      await this.connection.close(force);
+      await this.close(force);
     } else {
-      await this.connection.close();
+      await this.close();
     }
   }
 
