@@ -19,7 +19,7 @@ module.exports = {
     mongodb: {
       protocol: process.env.TEST_DB_PROTOCOL || 'mongodb',
       hostname: process.env.TEST_DB_HOSTNAME || 'localhost',
-      port: typeof process.env.TEST_DB_PORT === 'undefined' ? 27017 : process.env.TEST_DB_PORT,
+      port: typeof process.env.TEST_DB_PORT === 'undefined' ? 27017 : parseInt(process.env.TEST_DB_PORT),
       database: process.env.TEST_DB_NAME || 'ci',
 			username: process.env.TEST_DB_USERNAME || '',
       password: process.env.TEST_DB_PASSWORD || '',
