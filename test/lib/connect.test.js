@@ -31,7 +31,6 @@ describe('connect', function () {
             url: databaseUri,
             // MongoClientOptions
             options: {
-              keepAlive: true
             }
           }
         }
