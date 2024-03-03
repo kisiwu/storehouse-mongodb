@@ -65,7 +65,7 @@ if (conn) {
 const localManager = Storehouse.getManager<MongoDBManager>('local');
 if (localManager) {
   // model
-  const moviesModel = manager.getModel<Collection<Movie>>('movies');
+  const moviesModel = localManager.getModel<Collection<Movie>>('movies');
   if (moviesModel) {
     console.log('nb movies', await moviesModel.countDocuments());
   }
