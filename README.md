@@ -9,7 +9,7 @@ MongoDB driver manager for @storehouse/core.
 Make sure you have [@storehouse/core](https://www.npmjs.com/package/@storehouse/core) and [mongodb](https://www.npmjs.com/package/mongodb) installed.
 
 ```bash
-$ npm install @storehouse/mongodb
+npm install @storehouse/mongodb
 ```
 
 ## Usage

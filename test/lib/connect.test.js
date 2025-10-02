@@ -7,7 +7,7 @@ Debug.enable('@storehouse/mongodb*');
 describe('connect', function () {
   const { logger, params } = this.ctx.kaukau;
 
-  it('should init and connect', async () => {
+  it('should init and connect', async function () {
     Storehouse.setManagerType(MongoDBManager);
 
     let databaseUri = `${params('mongodb.protocol')}://`;
