@@ -1,6 +1,6 @@
 const { Debug } = require('@novice1/logger');
 const Storehouse = require('@storehouse/core');
-const { MongoDBManager } = require('../../lib/index');
+const { MongoDBManager, getModel } = require('../../lib/index');
 
 Debug.enable('@storehouse/mongodb*');
 
@@ -45,7 +45,7 @@ describe('connect', function () {
         logger.log('nb movies', await MoviesModel.countDocuments());
       }
 
-      const Movies = Storehouse.getModel('mongodb', 'movies');
+      const Movies = getModel(Storehouse, 'movies')//Storehouse.getModel('mongodb', 'movies');
   
       const newMovie = {
         title: `Last Knight ${Math.ceil(Math.random() * 1000) + 1}`
