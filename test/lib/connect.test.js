@@ -1,3 +1,4 @@
+const { randomBytes } = require('node:crypto');
 const { Debug } = require('@novice1/logger');
 const { Storehouse } = require('@storehouse/core');
 const { MongoDbManager, getModel } = require('../../lib/index');
@@ -48,7 +49,7 @@ describe('connect', function () {
       const Movies = getModel(Storehouse, 'movies')//Storehouse.getModel('mongodb', 'movies');
   
       const newMovie = {
-        title: `Last Knight ${Math.ceil(Math.random() * 1000) + 1}`
+        title: `Last Knight ${randomBytes(4).toString('hex')}`
       };
       newMovie.rate = 3;
       const r = await Movies.insertOne(newMovie);

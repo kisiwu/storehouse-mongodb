@@ -1,6 +1,7 @@
 import { Debug } from '@novice1/logger';
 import { Storehouse } from '@storehouse/core';
 import { MongoDbManager, getModel, getManager, getConnection } from '../../src/index';
+import { randomBytes } from 'node:crypto';
 
 Debug.enable('@storehouse/mongodb*');
 
@@ -54,7 +55,7 @@ describe('connect', function () {
       const Movies = getModel<Movie>(Storehouse, /*'mongodb',*/ 'movies');
 
       const newMovie: Movie = {
-        title: `Last Knight ${Math.ceil(Math.random() * 1000) + 1}`
+        title: `Last Knight ${randomBytes(4).toString('hex')}`
       };
       newMovie.rate = 3;
       const r = await Movies.insertOne(newMovie);
