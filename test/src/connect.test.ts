@@ -1,6 +1,6 @@
 import { Debug } from '@novice1/logger';
-import Storehouse from '@storehouse/core';
-import { MongoDBManager, getModel, getManager, getConnection } from '../../src/index';
+import { Storehouse } from '@storehouse/core';
+import { MongoDbManager, getModel, getManager, getConnection } from '../../src/index';
 
 Debug.enable('@storehouse/mongodb*');
 
@@ -31,12 +31,12 @@ describe('connect', function () {
     try {
       Storehouse.add({
         mongodb: {
-          type: MongoDBManager,
+          type: MongoDbManager,
           config: {
             url: databaseUri,
             // MongoClientOptions
             options: {
-              
+
             }
           }
         }
@@ -52,15 +52,15 @@ describe('connect', function () {
       }
 
       const Movies = getModel<Movie>(Storehouse, /*'mongodb',*/ 'movies');
-  
+
       const newMovie: Movie = {
         title: `Last Knight ${Math.ceil(Math.random() * 1000) + 1}`
       };
       newMovie.rate = 3;
       const r = await Movies.insertOne(newMovie);
       logger.info('added new movie', r.insertedId);
-  
-      const movies = await Movies.find({}).sort({_id: -1}).limit(1).toArray();
+
+      const movies = await Movies.find({}).sort({ _id: -1 }).limit(1).toArray();
       if (movies.length) {
         const doc = movies[0];
         logger.log('new movie title:', doc.title);
@@ -85,7 +85,7 @@ describe('connect', function () {
       */
 
       logger.info('Done');
-    } catch(e) {
+    } catch (e) {
       await Storehouse.close();
       logger.info('closed connections');
       throw e;

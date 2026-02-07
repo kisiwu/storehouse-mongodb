@@ -1,6 +1,6 @@
 const { Debug } = require('@novice1/logger');
-const Storehouse = require('@storehouse/core');
-const { MongoDBManager, getModel } = require('../../lib/index');
+const { Storehouse } = require('@storehouse/core');
+const { MongoDbManager, getModel } = require('../../lib/index');
 
 Debug.enable('@storehouse/mongodb*');
 
@@ -8,7 +8,7 @@ describe('connect', function () {
   const { logger, params } = this.ctx.kaukau;
 
   it('should init and connect', async function () {
-    Storehouse.setManagerType(MongoDBManager);
+    Storehouse.setManagerType(MongoDbManager);
 
     let databaseUri = `${params('mongodb.protocol')}://`;
     if (params('mongodb.username') && params('mongodb.password')) {
