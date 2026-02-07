@@ -11,6 +11,7 @@ typedoc.json
 kaukau-*.mjs
 eslint.config.mjs
 tsconfig.json
+CHANGELOG.md
 
 # Logs
 logs
