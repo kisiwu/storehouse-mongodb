@@ -8,6 +8,9 @@ import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
 import stylisticJs from '@stylistic/eslint-plugin'
 import mochaPlugin from 'eslint-plugin-mocha';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import { importX } from 'eslint-plugin-import-x';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +26,8 @@ export default defineConfig([{
 
     plugins: {
         '@typescript-eslint': typescriptEslint,
-        '@stylistic/js': stylisticJs
+        '@stylistic/js': stylisticJs,
+        'import-x': importX,
     },
 
     languageOptions: {
@@ -32,15 +36,24 @@ export default defineConfig([{
         },
 
         parser: tsParser,
-        ecmaVersion: 6,
+        ecmaVersion: 2022,
         sourceType: 'module',
     },
 
     rules: {
         '@stylistic/js/quotes': ['warn', 'single'],
         '@stylistic/js/quote-props': ['error', 'as-needed'],
+        'import-x/no-cycle': ['error', { maxDepth: Infinity }],
     },
-},{
+
+    settings: {
+        'import-x/resolver-next': [
+            createTypeScriptImportResolver({
+                project: './tsconfig.json',
+            })
+        ],
+    },
+}, {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
     files: ['test/**/*.mjs'],
 
@@ -64,10 +77,10 @@ export default defineConfig([{
         '@stylistic/js/quotes': ['warn', 'single'],
         '@stylistic/js/quote-props': ['error', 'as-needed'],
     },
-},{
+}, {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
     files: ['test/**/*.js', '*.js'],
-    
+
 
     plugins: {
         '@stylistic/js': stylisticJs
@@ -87,4 +100,5 @@ export default defineConfig([{
         '@stylistic/js/quotes': ['warn', 'single'],
         '@stylistic/js/quote-props': ['error', 'as-needed'],
     },
-}]);
+}, eslintConfigPrettier
+]);

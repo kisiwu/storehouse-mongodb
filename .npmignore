@@ -1,4 +1,5 @@
 .github
+.vscode
 typedocIncludes
 docs
 dev
@@ -12,6 +13,8 @@ kaukau-*.mjs
 eslint.config.mjs
 tsconfig.json
 CHANGELOG.md
+.prettierignore
+prettier.config.*
 
 # Logs
 logs

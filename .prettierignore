@@ -1,0 +1,15 @@
+build
+lib
+dist
+dist-prod
+public
+view
+
+.vscode
+.husky
+coverage
+
+# to ignore package.json, pnpm-lock.yaml, ...
+/*.json
+/*.yaml
+/*.yml

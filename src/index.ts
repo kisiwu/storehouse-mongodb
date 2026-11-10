@@ -1,21 +1,15 @@
-import { 
-  HealthCheckResult, 
-  IManager, 
-  InvalidManagerConfigError, 
-  ManagerArg, 
-  ManagerNotFoundError, 
-  ModelNotFoundError, 
-  Registry 
-} from '@storehouse/core';
+import { Logger } from '@novice1/logger';
 import {
-  MongoClient,
-  MongoClientOptions,
-  Document,
-  Collection
-} from 'mongodb';
-import Logger from '@novice1/logger';
+  HealthCheckResult,
+  IManager,
+  InvalidManagerConfigError,
+  ManagerArg,
+  ManagerNotFoundError,
+  ModelNotFoundError,
+  Registry,
+} from '@storehouse/core';
+import { MongoClient, MongoClientOptions, Document, Collection } from 'mongodb';
 import { randomBytes } from 'node:crypto';
-
 
 const Log = Logger.debugger('@storehouse/mongodb:manager');
 
@@ -52,7 +46,7 @@ export interface MongoDbManagerArg extends ManagerArg {
      * See MongoDB driver documentation for available options.
      */
     options?: MongoClientOptions;
-  },
+  };
 }
 
 /**
@@ -84,7 +78,7 @@ export interface MongoDbManagerArg extends ManagerArg {
  * const users = getModel<User>(registry, 'users');
  * ```
  */
-export function getModel<T extends Document = Document>(registry: Registry, modelName: string): Collection<T>
+export function getModel<T extends Document = Document>(registry: Registry, modelName: string): Collection<T>;
 
 /**
  * Retrieves a MongoDB Collection (model) from a specific manager in the registry.
@@ -112,15 +106,20 @@ export function getModel<T extends Document = Document>(registry: Registry, mode
  * const allProducts = await products.find({}).toArray();
  * ```
  */
-export function getModel<T extends Document = Document>(registry: Registry, managerName: string, modelName: string): Collection<T>;
+export function getModel<T extends Document = Document>(
+  registry: Registry,
+  managerName: string,
+  modelName: string
+): Collection<T>;
 
-export function getModel<T extends Document = Document>(registry: Registry, managerName: string, modelName?: string): Collection<T> {
+export function getModel<T extends Document = Document>(
+  registry: Registry,
+  managerName: string,
+  modelName?: string
+): Collection<T> {
   const model = registry.getModel<Collection<T>>(managerName, modelName);
   if (!model) {
-    throw new ModelNotFoundError(
-      modelName || managerName,
-      modelName ? managerName : undefined
-    );
+    throw new ModelNotFoundError(modelName || managerName, modelName ? managerName : undefined);
   }
   return model;
 }
@@ -449,10 +448,10 @@ export class MongoDbManager extends MongoClient implements IManager {
           isOpen: true,
           isReady: pingResult.ok === 1,
           pingResponse: pingResult,
-          latency: `${latency}ms`
+          latency: `${latency}ms`,
         },
         latency,
-        timestamp
+        timestamp,
       };
     } catch (error) {
       return {
@@ -462,10 +461,10 @@ export class MongoDbManager extends MongoClient implements IManager {
           name: this.name,
           isOpen: false,
           isReady: false,
-          error: error instanceof Error ? error.stack : String(error)
+          error: error instanceof Error ? error.stack : String(error),
         },
         latency: Date.now() - start,
-        timestamp
+        timestamp,
       };
     }
   }
