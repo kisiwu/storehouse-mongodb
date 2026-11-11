@@ -17,7 +17,7 @@
     "format": "cross-env NODE_OPTIONS=--experimental-strip-types prettier --write .",
     "format:check": "cross-env NODE_OPTIONS=--experimental-strip-types prettier --check .",
     "lint": "eslint .",
-    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json kaukau --r ts-node/register --config kaukau-src.mjs",
+    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json kaukau -r ts-node/register --config kaukau-src.mjs",
     "test:lib": "kaukau --config kaukau-lib.mjs",
     "test:local": "dotenvx run -f .env.test -- cross-env TS_NODE_PROJECT=test/tsconfig.json kaukau --require ts-node/register --config kaukau-src.mjs",
     "test:lib:local": "dotenvx run -f .env.test -- kaukau --config kaukau-lib.mjs"
