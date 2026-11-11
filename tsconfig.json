@@ -3,7 +3,7 @@
     "include": ["src"],
     "exclude": ["node_modules"],
     "compilerOptions": {
-        "typeRoots": ["types", "node_modules/@types"],
+        "typeRoots": ["node_modules/@types", "node_modules"],
         "outDir": "./lib",
         // match output dir to input dir. e.g. lib/index instead of lib/src/index
         "rootDir": "./src",

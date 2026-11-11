@@ -1,6 +1,6 @@
+import { MongoDbManager, getModel, getManager, getConnection } from '../../src/index';
 import { Debug } from '@novice1/logger';
 import { Storehouse } from '@storehouse/core';
-import { MongoDbManager, getModel, getManager, getConnection } from '../../src/index';
 import { randomBytes } from 'node:crypto';
 
 Debug.enable('@storehouse/mongodb*');
@@ -36,17 +36,15 @@ describe('connect', function () {
           config: {
             url: databaseUri,
             // MongoClientOptions
-            options: {
-
-            }
-          }
-        }
+            options: {},
+          },
+        },
       });
 
-      const conn = await getConnection(Storehouse, 'mongodb').connect();// Storehouse.getConnection<MongoClient>()?.connect();
+      const conn = await getConnection(Storehouse, 'mongodb').connect(); // Storehouse.getConnection<MongoClient>()?.connect();
       logger.info('retrieved connection for database', conn.db().databaseName);
 
-      const manager = getManager(Storehouse/*, 'mongodb'*/);
+      const manager = getManager(Storehouse /*, 'mongodb'*/);
       const MoviesModel = manager.getModel<Movie>('movies');
       if (MoviesModel) {
         logger.log('nb movies', await MoviesModel.countDocuments());
@@ -55,7 +53,7 @@ describe('connect', function () {
       const Movies = getModel<Movie>(Storehouse, /*'mongodb',*/ 'movies');
 
       const newMovie: Movie = {
-        title: `Last Knight ${randomBytes(4).toString('hex')}`
+        title: `Last Knight ${randomBytes(4).toString('hex')}`,
       };
       newMovie.rate = 3;
       const r = await Movies.insertOne(newMovie);

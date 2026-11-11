@@ -294,10 +294,10 @@ export class MongoDbManager extends MongoClient implements IManager {
     this.on('topologyOpening', () => {
       Log.info(`[${this.name}] connecting ...`);
     });
-    this.on('serverOpening', () => {
+    this.on('connectionCreated', () => {
       Log.info(`[${this.name}] connected!`);
     });
-    this.on('serverClosed', () => {
+    this.on('connectionClosed', () => {
       Log.warn(`[${this.name}] disconnected!`);
     });
     this.on('topologyClosed', () => {

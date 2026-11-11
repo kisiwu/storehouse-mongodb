@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1] - 2026-11-11
+
+### Fixed
+- Updated MongoDB connection event handling to use `connectionCreated` and `connectionClosed` instead of `serverOpening` and `serverClosed`
+- Updated GitHub Actions workflow to use Node.js 26.x and latest action versions
+- Update dependencies and peer dependencies
+
 ## [3.0.0] - 2026-02-07
 
 ### Added

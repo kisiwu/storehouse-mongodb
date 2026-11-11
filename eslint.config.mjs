@@ -1,104 +1,107 @@
-import { defineConfig } from 'eslint/config';
+import { FlatCompat } from '@eslint/eslintrc';
+import js from '@eslint/js';
+import stylisticJs from '@stylistic/eslint-plugin';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+import { importX } from 'eslint-plugin-import-x';
+import mochaPlugin from 'eslint-plugin-mocha';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
-import stylisticJs from '@stylistic/eslint-plugin'
-import mochaPlugin from 'eslint-plugin-mocha';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
-import { importX } from 'eslint-plugin-import-x';
-import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 });
 
-export default defineConfig([{
+export default defineConfig([
+  {
     extends: compat.extends('eslint:recommended', 'plugin:@typescript-eslint/recommended'),
     files: ['src/**/*.ts', 'test/**/*.ts', '*.{ts,mjs}'],
 
     plugins: {
-        '@typescript-eslint': typescriptEslint,
-        '@stylistic/js': stylisticJs,
-        'import-x': importX,
+      '@typescript-eslint': typescriptEslint,
+      '@stylistic/js': stylisticJs,
+      'import-x': importX,
     },
 
     languageOptions: {
-        globals: {
-            ...globals.node,
-        },
+      globals: {
+        ...globals.node,
+      },
 
-        parser: tsParser,
-        ecmaVersion: 2022,
-        sourceType: 'module',
+      parser: tsParser,
+      ecmaVersion: 2022,
+      sourceType: 'module',
     },
 
     rules: {
-        '@stylistic/js/quotes': ['warn', 'single'],
-        '@stylistic/js/quote-props': ['error', 'as-needed'],
-        'import-x/no-cycle': ['error', { maxDepth: Infinity }],
+      '@stylistic/js/quotes': ['warn', 'single'],
+      '@stylistic/js/quote-props': ['error', 'as-needed'],
+      'import-x/no-cycle': ['error', { maxDepth: Infinity }],
     },
 
     settings: {
-        'import-x/resolver-next': [
-            createTypeScriptImportResolver({
-                project: './tsconfig.json',
-            })
-        ],
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          project: './tsconfig.json',
+        }),
+      ],
     },
-}, {
+  },
+  {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
     files: ['test/**/*.mjs'],
 
     plugins: {
-        '@typescript-eslint': typescriptEslint,
-        '@stylistic/js': stylisticJs
+      '@typescript-eslint': typescriptEslint,
+      '@stylistic/js': stylisticJs,
     },
 
     languageOptions: {
-        globals: {
-            ...globals.node,
-        },
+      globals: {
+        ...globals.node,
+      },
 
-        parser: tsParser,
-        ecmaVersion: 6,
-        sourceType: 'module',
+      parser: tsParser,
+      ecmaVersion: 6,
+      sourceType: 'module',
     },
 
     rules: {
-        'mocha/no-setup-in-describe': ['off'],
-        '@stylistic/js/quotes': ['warn', 'single'],
-        '@stylistic/js/quote-props': ['error', 'as-needed'],
+      'mocha/no-setup-in-describe': ['off'],
+      '@stylistic/js/quotes': ['warn', 'single'],
+      '@stylistic/js/quote-props': ['error', 'as-needed'],
     },
-}, {
+  },
+  {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
     files: ['test/**/*.js', '*.js'],
 
-
     plugins: {
-        '@stylistic/js': stylisticJs
+      '@stylistic/js': stylisticJs,
     },
 
     languageOptions: {
-        globals: {
-            ...globals.node,
-        },
+      globals: {
+        ...globals.node,
+      },
 
-        ecmaVersion: 8,
-        sourceType: 'commonjs',
+      ecmaVersion: 8,
+      sourceType: 'commonjs',
     },
 
     rules: {
-        'mocha/no-setup-in-describe': ['off'],
-        '@stylistic/js/quotes': ['warn', 'single'],
-        '@stylistic/js/quote-props': ['error', 'as-needed'],
+      'mocha/no-setup-in-describe': ['off'],
+      '@stylistic/js/quotes': ['warn', 'single'],
+      '@stylistic/js/quote-props': ['error', 'as-needed'],
     },
-}, eslintConfigPrettier
+  },
+  eslintConfigPrettier,
 ]);

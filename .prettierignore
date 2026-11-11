@@ -13,3 +13,6 @@ coverage
 /*.json
 /*.yaml
 /*.yml
+
+*.md
+tsconfig.json
